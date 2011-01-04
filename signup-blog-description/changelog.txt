@@ -1,9 +1,14 @@
-Plugin Name: Signup Blog Description
+Plugin Name: Set Blog Description on Blog Creation
 Author: Andrew Billits
 
 Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
+
+1.0.1 - 1/05/2011
+----------------------------------------------------------------------
+- WP 3.1 Compatibility
+- Changed install location for autoupdate ability
 
 1.0.0 - 09/02/2009
 ----------------------------------------------------------------------
