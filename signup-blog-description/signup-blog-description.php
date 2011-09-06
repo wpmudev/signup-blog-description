@@ -3,14 +3,14 @@
 Plugin Name: Set Blog Description on Blog Creation
 Plugin URI: http://premium.wpmudev.org/project/set-blog-description-on-blog-creation
 Description: Allows new bloggers to be able to set their tagline when they create a blog in Multisite
-Version: 1.0.1
+Version: 1.0.2
 Author: Aaron Edwards & Andrew Billits (Incsub)
 Author URI: http://premium.wpmudev.org
 Network: true
 WDP ID: 104
 */
 
-/* 
+/*
 Copyright 2007-2011 Incsub (http://incsub.com)
 
 This program is free software; you can redistribute it and/or modify
@@ -77,17 +77,17 @@ function signup_blog_description($blog_ID) {
 			if ( !empty( $meta['blog_description'] ) ) {
 				$blog_description = stripslashes($meta['blog_description']);
 			}
-		}		
+		}
 	}
-	
+
 	if ( empty($blog_description) ) {
 		$blog_description = $default_blog_description;
 	}
-	
+
 	if ( $blog_description == 'empty' ) {
 		$blog_description = '';
 	}
-	
+
 	if ( !empty( $blog_description ) ) {
 		switch_to_blog( $blog_ID );
 		update_option('blogdescription', stripslashes($blog_description));
@@ -118,10 +118,11 @@ function signup_blog_description_stylesheet() {
 
 function signup_blog_description_signup_form($errors) {
 	$error = $errors->get_error_message('blog_description');
+	$desc = isset($_POST['blog_description']) ? esc_attr($_POST['blog_description']) : '';
 	?>
-    <label for="blog_description"><?php _e('Blog Tagline', 'sbd'); ?>:</label>
-		<input name="blog_description" type="text" id="blog_description" value="" autocomplete="off" maxlength="50" /><br />
-		<?php _e('In a few words, explain what this blog is about. Default will be used if left blank.', 'sbd') ?>
+    <label for="blog_description"><?php _e('Site Tagline', 'sbd'); ?>:</label>
+		<input name="blog_description" type="text" id="blog_description" value="<?php echo $desc; ?>" autocomplete="off" maxlength="50" /><br />
+		<?php _e('In a few words, explain what this site is about. Default will be used if left blank.', 'sbd') ?>
 	<?php
 }
 
@@ -133,7 +134,7 @@ if ( !function_exists( 'wdp_un_check' ) ) {
   add_action( 'admin_notices', 'wdp_un_check', 5 );
   add_action( 'network_admin_notices', 'wdp_un_check', 5 );
   function wdp_un_check() {
-    if ( !class_exists( 'WPMUDEV_Update_Notifications' ) && current_user_can( 'edit_users' ) )
+    if ( !class_exists( 'WPMUDEV_Update_Notifications' ) && current_user_can( 'install_plugins' ) )
       echo '<div class="error fade"><p>' . __('Please install the latest version of <a href="http://premium.wpmudev.org/project/update-notifications/" title="Download Now &raquo;">our free Update Notifications plugin</a> which helps you stay up-to-date with the most stable, secure versions of WPMU DEV themes and plugins. <a href="http://premium.wpmudev.org/wpmu-dev/update-notifications-plugin-information/">More information &raquo;</a>', 'wpmudev') . '</a></p></div>';
   }
 }
