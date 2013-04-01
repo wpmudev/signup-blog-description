@@ -3,7 +3,7 @@
 Plugin Name: Set Blog Description on Blog Creation
 Plugin URI: http://premium.wpmudev.org/project/set-blog-description-on-blog-creation/
 Description: Allows new bloggers to be able to set their tagline when they create a blog in Multisite
-Version: 1.0.3
+Version: 1.0.4
 Author: Aaron Edwards & Andrew Billits (Incsub)
 Author URI: http://premium.wpmudev.org
 Network: true
@@ -41,6 +41,7 @@ add_action('wp_head', 'signup_blog_description_stylesheet');
 add_filter('add_signup_meta', 'signup_blog_description_meta_filter');
 add_action('signup_blogform', 'signup_blog_description_signup_form');
 add_filter('blog_template_exclude_settings', 'signup_blog_description_nbt');
+add_filter('wpmu_new_blog', 'signup_blog_description_nbt');
 
 //------------------------------------------------------------------------//
 //---Functions------------------------------------------------------------//
@@ -54,7 +55,7 @@ function signup_blog_description_localization() {
 
 function signup_blog_description_meta_filter($meta) {
 	if ( !empty( $_POST['blog_description'] ) ) {
-		$meta['blogdescription'] = $_POST['blogdescription'];
+		$meta['blogdescription'] = $_POST['blog_description'];
 	}
 	return $meta;
 }
@@ -82,7 +83,7 @@ function signup_blog_description_signup_form($errors) {
 	$desc = isset($_POST['blog_description']) ? esc_attr($_POST['blog_description']) : '';
 	?>
     <label for="blog_description"><?php _e('Site Tagline', 'sbd'); ?>:</label>
-		<input name="blogdescription" type="text" id="blog_description" value="<?php echo $desc; ?>" autocomplete="off" maxlength="50" /><br />
+		<input name="blog_description" type="text" id="blog_description" value="<?php echo $desc; ?>" autocomplete="off" maxlength="50" /><br />
 		<?php _e('In a few words, explain what this site is about. Default will be used if left blank.', 'sbd') ?>
 	<?php
 }
