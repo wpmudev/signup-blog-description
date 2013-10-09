@@ -1,0 +1,48 @@
+# Copyright (C) 2013 Set Blog Description on Blog Creation
+# This file is distributed under the same license as the Set Blog Description on Blog Creation package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Set Blog Description on Blog Creation 1.0.4\n"
+"Report-Msgid-Bugs-To: http://premium.wpmudev.org/\n"
+"POT-Creation-Date: 2013-10-09 17:43:09+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2013-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: signup-blog-description.php:32
+msgid "Set Blog Description on Blog Creation is only compatible with Multisite installs."
+msgstr ""
+
+#: signup-blog-description.php:85
+msgid "Site Tagline"
+msgstr ""
+
+#: signup-blog-description.php:87
+msgid "In a few words, explain what this site is about. Default will be used if left blank."
+msgstr ""
+
+#: signup-blog-description.php:100
+msgid "Please install the latest version of <a href=\"http://premium.wpmudev.org/project/update-notifications/\" title=\"Download Now &raquo;\">our free Update Notifications plugin</a> which helps you stay up-to-date with the most stable, secure versions of WPMU DEV themes and plugins. <a href=\"http://premium.wpmudev.org/wpmu-dev/update-notifications-plugin-information/\">More information &raquo;</a>"
+msgstr ""
+#. Plugin Name of the plugin/theme
+msgid "Set Blog Description on Blog Creation"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://premium.wpmudev.org/project/set-blog-description-on-blog-creation/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Allows new bloggers to be able to set their tagline when they create a blog in Multisite"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Aaron Edwards & Andrew Billits (Incsub)"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://premium.wpmudev.org"
+msgstr ""
