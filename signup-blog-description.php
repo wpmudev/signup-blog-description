@@ -31,8 +31,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 class SignupBlogDescription {
     var $version = '1.1';
     var $language;
+    var $location;
+    var $plugin_dir;
+    var $plugin_url;
 
     function __construct() {
+
+        //Setup variables
+        $this->init_vars();
 
         //install plugin
         register_activation_hook( __FILE__, array($this, 'install') );
@@ -48,7 +54,19 @@ class SignupBlogDescription {
         add_filter('blog_template_exclude_settings', array( &$this, 'nbt' ) );
         add_filter('wpmu_new_blog', array( &$this, 'nbt' ) );
 
-        include_once( '/signup-blog-description/dash-notice/wpmudev-dash-notification.php' );
+        include_once( $this->plugin_dir . 'dash-notice/wpmudev-dash-notification.php' );
+    }
+
+    /**
+     * Initiallize variables
+     */
+    function  init_vars(){
+        //setup proper directories
+        if ( defined( 'WP_PLUGIN_URL' ) && defined( 'WP_PLUGIN_DIR' ) && file_exists( WP_PLUGIN_DIR . '/signup-blog-description/' . basename( __FILE__ ) ) ) {
+            $this->location = 'plugins';
+            $this->plugin_dir = WP_PLUGIN_DIR . '/signup-blog-description/';
+            $this->plugin_url = WP_PLUGIN_URL . '/signup-blog-description/';
+        }
     }
 
     /**
