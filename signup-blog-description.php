@@ -88,10 +88,23 @@ class SignupBlogDescription {
 	
         //check if multisite is installed
         if ( !is_multisite() ) {
-            $this->trigger_install_error(__('WordPress multisite is required to run this plugin. <a target="_blank" href="http://codex.wordpress.org/Create_A_Network">Create a network</a>.', 'psts'), E_USER_ERROR);
+            $this->trigger_activation_error(__('WordPress multisite is required to run this plugin. <a target="_blank" href="http://codex.wordpress.org/Create_A_Network">Create a network</a>.', 'psts'), E_USER_ERROR);
         }
     }
+    
+    function trigger_activation_error( $message, $errno) {
+ 
+        if(isset($_GET['action']) && $_GET['action'] == 'error_scrape') {
 
+            echo $message;
+
+        } else {
+
+            trigger_error($message, $errno);
+
+        }
+        exit;
+    }
     /**
      * Save the blogdescription value in meta
      * @param type $meta
