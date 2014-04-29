@@ -28,82 +28,104 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-//force multisite
-if ( !is_multisite() )
-  exit( __('Set Blog Description on Blog Creation is only compatible with Multisite installs.', 'sbd') );
+class SignupBlogDescription {
+    var $version = '1.1';
+    var $language;
 
+    function __construct() {
 
-//------------------------------------------------------------------------//
-//---Hook-----------------------------------------------------------------//
-//------------------------------------------------------------------------//
+        //install plugin
+        register_activation_hook( __FILE__, array($this, 'install') );
 
-add_action('plugins_loaded', 'signup_blog_description_localization');
-add_action('wp_head', 'signup_blog_description_stylesheet');
-add_filter('add_signup_meta', 'signup_blog_description_meta_filter');
-add_filter('bp_signup_usermeta', 'signup_blog_description_meta_filter');
-add_action('signup_blogform', 'signup_blog_description_signup_form');
-add_action('bp_blog_details_fields', 'signup_blog_description_signup_form');
-add_filter('blog_template_exclude_settings', 'signup_blog_description_nbt');
-add_filter('wpmu_new_blog', 'signup_blog_description_nbt');
+        //localize
+        add_action( 'plugins_loaded', array( &$this, 'localization' ) );
 
-//------------------------------------------------------------------------//
-//---Functions------------------------------------------------------------//
-//------------------------------------------------------------------------//
+        add_action('wp_head', array( &$this, 'stylesheet' ) );
+        add_filter('add_signup_meta', array( &$this, 'meta_filter' ) );
+        add_filter('bp_signup_usermeta', array( &$this, 'meta_filter' ) );
+        add_action('signup_blogform', array( &$this, 'signup_form' ) );
+        add_action('bp_blog_details_fields', array( &$this, 'signup_form' ) );
+        add_filter('blog_template_exclude_settings', array( &$this, 'nbt' ) );
+        add_filter('wpmu_new_blog', array( &$this, 'nbt' ) );
 
-function signup_blog_description_localization() {
-  // Load up the localization file if we're using WordPress in a different language
-	// Place it in this plugin's "languages" folder and name it "sbd-[value in wp-config].mo"
-  load_plugin_textdomain( 'sbd', false, '/signup-blog-description/languages' );
-}
+        include_once( '/signup-blog-description/dash-notice/wpmudev-dash-notification.php' );
+    }
 
-function signup_blog_description_meta_filter($meta) {
-	if ( !empty( $_POST['blog_description'] ) ) {
-		$meta['blogdescription'] = $_POST['blog_description'];
-	}
-	return $meta;
-}
+    /**
+     * Textdomain for plugin
+     */
+    function localization() {
+        // Load up the localization
+        load_plugin_textdomain( 'sbd', false, '/signup-blog-description/languages' );
 
-/* exclude option from New Site Template plugin copy */
-function signup_blog_description_nbt( $and ) {
-	$and .= " AND `option_name` != 'blogdescription'";
-	return $and;
-}
+    }
 
-//------------------------------------------------------------------------//
-//---Output Functions-----------------------------------------------------//
-//------------------------------------------------------------------------//
+    /**
+     * Checks if it is a mulitsite or not
+     * @global type $wpdb
+     * @global type $current_site
+     */
+    function install() {
+        global $wpdb, $current_site;
+	
+        //check if multisite is installed
+        if ( !is_multisite() ) {
+            $this->trigger_install_error(__('WordPress multisite is required to run this plugin. <a target="_blank" href="http://codex.wordpress.org/Create_A_Network">Create a network</a>.', 'psts'), E_USER_ERROR);
+        }
+    }
 
-function signup_blog_description_stylesheet() {
-?>
-<style type="text/css">
-	.mu_register #blog_description { width:100%; font-size: 24px; margin:5px 0; }
-</style>
-<?php
-}
+    /**
+     * Save the blogdescription value in meta
+     * @param type $meta
+     * @return type $meta
+     */
+    function meta_filter($meta) {
+        if ( !empty( $_POST['blog_description'] ) ) {
+            $meta['blogdescription'] = $_POST['blog_description'];
+        }
+        return $meta;
+    }
 
-function signup_blog_description_signup_form($errors) {
+    /**
+     * Exclude option from New Site Template plugin copy
+     * @param string $and
+     * @return string
+     */
+    function nbt( $and ) {
+        $and .= " AND `option_name` != 'blogdescription'";
+        return $and;
+    }
+
+    /**
+     * Style for input field
+     */
+    function stylesheet() {
+    ?>
+        <style type="text/css">
+            .mu_register #blog_description { width:100%; font-size: 24px; margin:5px 0; }
+        </style>
+      <?php
+    }
+
+    /**
+     * Adds an additional field for Blog description,
+     * on signup form for WordPress or Buddypress
+     * @param type $errors
+     */
+    function signup_form($errors) {
         if(!empty( $errors ) ) {
             $error = $errors->get_error_message( 'blog_description' );
         }
+
         $desc = isset($_POST['blog_description']) ? esc_attr($_POST['blog_description']) : '';
-	?>
-    <label for="blog_description"><?php _e('Site Tagline', 'sbd'); ?>:</label>
-		<input name="blog_description" type="text" id="blog_description" value="<?php echo $desc; ?>" autocomplete="off" maxlength="50" /><br />
-		<?php _e('In a few words, explain what this site is about. Default will be used if left blank.', 'sbd') ?>
-	<?php
+        ?>
+
+        <label for="blog_description"><?php _e('Site Tagline', 'sbd'); ?>:</label>
+        <input name="blog_description" type="text" id="blog_description" value="<?php echo $desc; ?>" autocomplete="off" maxlength="50" /><br />
+        <?php _e('In a few words, explain what this site is about. Default will be used if left blank.', 'sbd') ?>
+        <?php
+    }
 }
 
-
-
-///////////////////////////////////////////////////////////////////////////
-/* -------------------- Update Notifications Notice -------------------- */
-if ( !function_exists( 'wdp_un_check' ) ) {
-  add_action( 'admin_notices', 'wdp_un_check', 5 );
-  add_action( 'network_admin_notices', 'wdp_un_check', 5 );
-  function wdp_un_check() {
-    if ( !class_exists( 'WPMUDEV_Update_Notifications' ) && current_user_can( 'install_plugins' ) )
-      echo '<div class="error fade"><p>' . __('Please install the latest version of <a href="http://premium.wpmudev.org/project/update-notifications/" title="Download Now &raquo;">our free Update Notifications plugin</a> which helps you stay up-to-date with the most stable, secure versions of WPMU DEV themes and plugins. <a href="http://premium.wpmudev.org/wpmu-dev/update-notifications-plugin-information/">More information &raquo;</a>', 'wpmudev') . '</a></p></div>';
-  }
-}
-/* --------------------------------------------------------------------- */
-?>
+//Initiallize Class
+$sbd = new SignupBlogDescription();
