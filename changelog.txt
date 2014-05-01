@@ -9,6 +9,7 @@ Change Log:
 ----------------------------------------------------------------------
 - code refactoring
 - added support for BuddyPress
+- added dash notice as svn external
 
 1.0.4 - 4/01/2013
 ----------------------------------------------------------------------
