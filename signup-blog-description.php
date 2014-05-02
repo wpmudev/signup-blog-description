@@ -8,7 +8,7 @@ Author: Aaron Edwards & Andrew Billits (Incsub)
 Author URI: http://premium.wpmudev.org
 Network: true
 WDP ID: 104
-Contributors - Umesh Kumar
+Contributors: Umesh Kumar
 */
 
 /*
