@@ -4,7 +4,7 @@ Plugin Name: Set Blog Description on Blog Creation
 Plugin URI: http://premium.wpmudev.org/project/set-blog-description-on-blog-creation/
 Description: Allows new bloggers to be able to set their tagline when they create a blog in Multisite
 Version: 1.1
-Author: Aaron Edwards & Andrew Billits (Incsub)
+Author: WPMU DEV
 Author URI: http://premium.wpmudev.org
 Network: true
 WDP ID: 104
@@ -13,7 +13,8 @@ Contributors: Umesh Kumar
 
 /*
 Copyright 2007-2014 Incsub (http://incsub.com)
-
+Author - Aaron Edwards & Andrew Billits (Incsub)
+Contributors - Jonathan Cowher, Carlos Vences, Andrew Billits, Umesh Kumar
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
 the Free Software Foundation.
